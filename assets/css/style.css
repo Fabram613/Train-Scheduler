@@ -1,0 +1,21 @@
+body {
+    background-color: #fafafa;
+}
+
+/*JUMBOTRON*/
+.jumbotron {
+    background-image: url("../images/background.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    -webkit-background-size: cover;
+    background-size: cover;
+	color: white;
+}
+
+.jumbotron h1 {
+	font-family: 'Gravitas One', cursive;
+}
+
+.jumbotron p {
+	font-family: 'Open Sans', sans-serif;
+}
