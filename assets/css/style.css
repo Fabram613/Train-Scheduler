@@ -13,9 +13,10 @@ body {
 }
 
 .jumbotron h1 {
-	font-family: 'Gravitas One', cursive;
+    font-family: 'Gravitas One', cursive;
 }
 
 .jumbotron p {
-	font-family: 'Open Sans', sans-serif;
+    font-family: 'Gravitas One', sans-serif;
+    font-style: italic;
 }

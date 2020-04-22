@@ -33,7 +33,8 @@ $(document).ready(function(){
         var minutesAway;
     
     // FUNCTIONS
-    // =========
+	// =========
+	
     function calcMinutesElapsed() {
         var convertedFirstTrainTime = moment(userInptFirstTT, "HH:mm").subtract(1, "years");
         return moment().diff(moment(convertedFirstTrainTime), "minutes");
@@ -56,31 +57,31 @@ $(document).ready(function(){
 		// This prevents the form from trying to submit itself and reseting the page.
 		event.preventDefault();
 
-		//Capture the user's input for each field and store into variable.
+		// Capture the user's input for each field and store into variable.
 		userInptTrainName = $("#trainName").val().trim();
 		userInptDestination = $("#destination").val().trim();
 		userInptFirstTT = $("#firstTrainTime").val().trim();
 		userInptFreq = $("#frequency").val().trim();
 		userInptNOW = new Date();
 
-		//Calculate the amount of minutes elapsed since the first train's arrival
+		// Calculate the amount of minutes elapsed since the first train's arrival
 		var minutesSinceFirstTrane = calcMinutesElapsed();
 		console.log("Total minutes elapsed since the first train arrived: " + minutesSinceFirstTrane);
 
-		//Calculate how many minutes away is the next train
+		// Calculate how many minutes away is the next train
 		minutesAway = calcMinutesAway(minutesSinceFirstTrane, userInptFreq);
 		console.log("The next train will be here in: " + minutesAway +" minutes.");
 
-		//Whenever current time matches next arrival time
+		// Whenever current time matches next arrival time
 		if (minutesAway === parseInt(userInptFreq)) {
 			minutesAway = 0;
 		}
 
-		//Calculate the next arrival's time
+		// Calculate the next arrival's time
 	    nextArrival = calcNextArrival(minutesAway);
 	    console.log("The next train will be here at: " + nextArrival);
 
-		//Create a new local "temporary" object for holding train data
+		// Create a new local "temporary" object for holding train data
 		var newTrain = {
 			dataTrainName: userInptTrainName,
 			dataDestination: userInptDestination,
@@ -94,21 +95,14 @@ $(document).ready(function(){
 		//Adding information to the Firebase database
 		firebase.database().ref().push(newTrain);
 
-		//Log everything from the database
-		console.log("Your train's name is: " + newTrain.dataTrainName);
-		console.log("Your train's destination is: " + newTrain.dataDestination);
-		console.log("Your train first arrived at: " + newTrain.dataFirstTrainTime);
-		console.log("Your train's frequency is every " + newTrain.dataFrequency + " minutes.");
-		console.log("Your train's was added at: " + newTrain.dataTimeAdded);
-
 		//Alert
 		alert("Your train was successfully added to the Schedule");
 
 	});
-    //With a listener, capture when a new item has been added to the database.
+    // With a listener, capture when a new item has been added to the database.
 	firebase.database().ref().on("child_added", function(childSnapshot) {
 
-		//Store everything inoto a variable
+		// Store everything into a variable
 		var name = childSnapshot.val().dataTrainName;
 		var dest = childSnapshot.val().dataDestination;
 		var freq = childSnapshot.val().dataFrequency;
@@ -117,10 +111,10 @@ $(document).ready(function(){
 		var next = childSnapshot.val().dataNextArrival;
 		var away = childSnapshot.val().dataMinutesAway;
 
-		//Create a variable that HOLDS the new row
+		// Create a variable that HOLDS the new row
 		var newRowItem = $("<tr><td>" + name + "</td><td>" + dest + "</td><td>" + freq + "</td><td>" + next + "</td><td>" + away + "</td></tr>");
 
-		//Get the table and add new row to table at the end
+		// Get the table and add new row to table at the end
 		$("table tbody").append(newRowItem);
 
 	});
